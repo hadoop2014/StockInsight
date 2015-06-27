@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="true" scanPeriod="60 seconds" debug="true">
+
+    <define name="FileExist" class="ch.qos.logback.core.property.FileExistsPropertyDefiner">
+        <path>${VMAX_APP_CONFIG_HOME}/logVariables.properties</path>
+    </define>
+
+    <if condition='${FileExist} == true'>
+        <then>
+            <property file="${VMAX_APP_CONFIG_HOME}/logVariables.properties"/>
+        </then>
+    </if>
+
+    <define name="FileExist1" class="ch.qos.logback.core.property.FileExistsPropertyDefiner">
+        <path>${VMAX_APP_CONFIG_HOME}logVariables.properties</path>
+    </define>
+
+    <if condition='${FileExist1} == true'>
+        <then>
+            <property file="${VMAX_APP_CONFIG_HOME}logVariables.properties"/>
+        </then>
+    </if>
+
+    <!-- definition of appender STDOUT -->
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>${consoleLevel:-DEBUG}</level>
+        </filter>
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} +[%thread] %-5level - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>./Debuglogs/Debug.log</file>
+
+        <rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
+            <fileNamePattern>./Debuglogs/Debug.%i.log.zip</fileNamePattern>
+            <minIndex>1</minIndex>
+            <maxIndex>10</maxIndex>
+        </rollingPolicy>
+
+        <triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+            <maxFileSize>${rollingSize:-10MB}</maxFileSize>
+        </triggeringPolicy>
+
+
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS}%-4relative [%thread] %-5level %logger{35} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="BusinessFILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>./logs/Business.log</file>
+
+        <rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
+            <fileNamePattern>./logs/Business.%i.log.zip</fileNamePattern>
+            <minIndex>1</minIndex>
+            <maxIndex>10</maxIndex>
+        </rollingPolicy>
+
+        <triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+            <maxFileSize>${rollingSize:-10MB}</maxFileSize>
+        </triggeringPolicy>
+        <Filter class="com.zte.bigdata.vmax.app.MarkerFilter">
+            <Marker>BusinessMarker</Marker>
+            <OnMatch>ACCEPT</OnMatch>
+            <OnMismatch>DENY</OnMismatch>
+        </Filter>
+
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <logger name="org.apache.zookeeper" level="ERROR">
+        <appender-ref ref="STDOUT"/>
+        <appender-ref ref="BusinessFILE"/>
+        <appender-ref ref="FILE"/>
+    </logger>
+
+    <logger name="akka" level="ERROR">
+        <appender-ref ref="STDOUT"/>
+        <appender-ref ref="BusinessFILE"/>
+        <appender-ref ref="FILE"/>
+    </logger>
+
+    <root level="${rootLevel:-DEBUG}">
+        <!-- appender referenced after it is defined -->
+        <appender-ref ref="STDOUT"/>
+        <appender-ref ref="BusinessFILE"/>
+        <appender-ref ref="FILE"/>
+    </root>
+</configuration>
