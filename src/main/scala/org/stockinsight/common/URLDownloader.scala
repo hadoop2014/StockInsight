@@ -9,14 +9,14 @@ import org.stockinsight.common.LogSupport
 
 import scala.io.Source
 
-object URLDownloader extends LogSupport{
+object UrlDownloader extends LogSupport{
   def downloadFile(url:String,filename:String) = {
     try {
       val printWriter = new PrintWriter(filename)
       printWriter.write(Source.fromURL(url,"utf-8").mkString)
     }
     catch {
-      case e:IOException =>  log.error(s"write file failure $filename!")
+      case e:IOException =>  log.error(s"write $filename failure!")
     }
   }
 }

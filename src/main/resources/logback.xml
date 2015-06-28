@@ -2,22 +2,22 @@
 <configuration scan="true" scanPeriod="60 seconds" debug="true">
 
     <define name="FileExist" class="ch.qos.logback.core.property.FileExistsPropertyDefiner">
-        <path>${VMAX_APP_CONFIG_HOME}/logVariables.properties</path>
+        <path>logVariables.properties</path>
     </define>
 
     <if condition='${FileExist} == true'>
         <then>
-            <property file="${VMAX_APP_CONFIG_HOME}/logVariables.properties"/>
+            <property file="logVariables.properties"/>
         </then>
     </if>
 
     <define name="FileExist1" class="ch.qos.logback.core.property.FileExistsPropertyDefiner">
-        <path>${VMAX_APP_CONFIG_HOME}logVariables.properties</path>
+        <path>logVariables.properties</path>
     </define>
 
     <if condition='${FileExist1} == true'>
         <then>
-            <property file="${VMAX_APP_CONFIG_HOME}logVariables.properties"/>
+            <property file="logVariables.properties"/>
         </then>
     </if>
 
@@ -62,7 +62,7 @@
         <triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
             <maxFileSize>${rollingSize:-10MB}</maxFileSize>
         </triggeringPolicy>
-        <Filter class="com.zte.bigdata.vmax.app.MarkerFilter">
+        <Filter class="org.stockinsight.common.MarkerFilter">
             <Marker>BusinessMarker</Marker>
             <OnMatch>ACCEPT</OnMatch>
             <OnMismatch>DENY</OnMismatch>
@@ -83,6 +83,10 @@
         <appender-ref ref="STDOUT"/>
         <appender-ref ref="BusinessFILE"/>
         <appender-ref ref="FILE"/>
+    </logger>
+
+    <logger name="ch.qos.logback" level="ERROR" additivity="false">
+        <appender-ref ref="STDOUT"/>
     </logger>
 
     <root level="${rootLevel:-DEBUG}">

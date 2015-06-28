@@ -26,7 +26,8 @@ libraryDependencies ++= Seq(
   "org.eclipse.jetty"%"jetty-util"%"8.1.14.v20131031"%"provided",
   //"org.eclipse.jetty"%"jetty-continuation"%"8.1.14.v20131031"%"provided"
   "org.eclipse.jetty"%"jetty-security"%"8.1.14.v20131031"%"provided",
-  "com.databricks"%%"spark-csv"%"1.0.3"
+  "com.databricks"%%"spark-csv"%"1.0.3",
+  "ch.qos.logback"%"logback-classic"% "1.1.2"
   //"org.eclipse.jetty"%"jetty-plus"%"8.1.14.v20131031"%"provided"
   //"org.eclipse.jetty.orbit"%"javax.servlet"%"3.0.0.v201112011016"
   //"org.mortbay.jetty"%%"servlet-api"%"3.0.20100224"
