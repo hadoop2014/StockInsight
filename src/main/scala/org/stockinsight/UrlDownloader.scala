@@ -65,13 +65,3 @@ object UrlDownloader extends LogSupport {
   }
 }
 
-object debugurl extends App with LogSupport {
-  //val url = "http://ichart.finance.yahoo.com/table.csv?s=%5EHSI&amp;d=5&amp;e=27&amp;f=2015&amp;g=d&amp;a=9&amp;b=1&amp;c=1928&amp;ignore=.csv"
-  //val url = "http://ichart.finance.yahoo.com/table.csv?s=%5EDJI&amp;d=5&amp;e=30&amp;f=2015&amp;g=d&amp;a=9&amp;b=1&amp;c=1928&amp;ignore=.csv"
-  //val printWriter = new PrintWriter("HangShengIndex.csv")
-  //printWriter.write(Source.fromURL(url,"utf-8").mkString)
-  StockIndexDownload.downloadFileFromUrl
-  //Source.fromURL(url,"utf-8").mkString.take(10).foreach(println)
-  //"cd /"!
-}
-

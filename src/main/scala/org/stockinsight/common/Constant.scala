@@ -7,6 +7,6 @@ object Constant extends Enumeration{
   type Constant = Value
 
   val constMaxHdfsUseCnt = Value(10000)
-  val constBufferSize = Value(4096)
+  val constBufferSize = Value(40960)
 
 }
