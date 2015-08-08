@@ -57,12 +57,14 @@ trait HdfsFunction extends LogSupport with Using {
   }
 
   //删除hdfs文件及目录
-  def deletePath(target: String): Unit = {
+  def delete(target: String): Unit = {
     usingHdfs("delete failed:") {
       hdfs =>
         val path = new Path(target)
         if (hdfs.exists(path))
           hdfs.delete(path,true)
+        else
+          log.debug(s"$target is not exists!")
     }
   }
 
@@ -239,6 +241,8 @@ trait HdfsFunction extends LogSupport with Using {
   def copyFromLocalFile(localFile: String, hdfsFile: String, delSource: Boolean = false,overwrite: Boolean = true): Unit = {
     usingHdfs("Copy file to HDFS failed:") {
       hdfs =>
+        val hdfsPath = hdfsFile.split("/").init.mkString("/")
+        if(!hdfs.exists(new Path(hdfsPath))) hdfs.mkdirs(new Path(hdfsPath))
         hdfs.copyFromLocalFile(delSource, overwrite, new Path(localFile), new Path(hdfsFile))
     }
   }

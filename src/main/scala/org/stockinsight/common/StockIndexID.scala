@@ -39,7 +39,20 @@ object StockIndexID extends Enumeration{
     else ""
   }
 
-  def getDomesticStockIndexUrl(idStockIndex:StockIndexID):String = {  //获取国际指数
+  //指派文件存放在hdfs的目录名
+  def getStockIndexPathName(stockIndexID: StockIndexID): String = {
+
+      if(stockIndexID == idNikkeiIndex) "NikkeiAverageIndex"
+      else if(stockIndexID == idHangshengIndex) "HangShengIndex"
+      else if(stockIndexID == idDowJonesIndex)  "DowJonesIndustrialAverageIndex"
+      else if(stockIndexID == idHushen300Index)  "HuShen300Index"
+      else if(stockIndexID == idShanghaiIndex)  "ShangHaiIndex"
+      else if(stockIndexID == idShenzhenIndex)  "ShenZhenIndex"
+      else ""
+
+  }
+
+  protected def getDomesticStockIndexUrl(idStockIndex:StockIndexID):String = {  //获取国际指数
     val codeStockIndex =
       if (idStockIndex == idShanghaiIndex ) "000001.ss"       //上证指数代号
       else if (idStockIndex == idShenzhenIndex) "399001.sz"   //深证成指代号
@@ -52,7 +65,7 @@ object StockIndexID extends Enumeration{
     //http://table.finance.yahoo.com/table.csv?s=600000.ss
   }
 
-  def getInternationalStockIndexUrl(idStockIndex:StockIndexID):String = { //获取国内指数
+  protected def getInternationalStockIndexUrl(idStockIndex:StockIndexID):String = { //获取国内指数
     val codeStockIndex =
       if (idStockIndex == idNikkeiIndex ) "N225"
       else if (idStockIndex == idHangshengIndex) "HSI"

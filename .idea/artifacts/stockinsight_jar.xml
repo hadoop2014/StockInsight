@@ -1,0 +1,10 @@
+<component name="ArtifactManager">
+  <artifact build-on-make="true" name="stockinsight:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/stockinsight_jar</output-path>
+    <root id="root">
+      <element id="archive" name="stockinsight.jar">
+        <element id="module-output" name="stockinsight" />
+      </element>
+    </root>
+  </artifact>
+</component>

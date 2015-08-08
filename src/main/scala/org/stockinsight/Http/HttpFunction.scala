@@ -60,10 +60,10 @@ trait HttpFunction extends LogSupport with Using{
                       while ({ len = inputStream.read(bytes, 0, Constant.constBufferSize.id); len != -1 }) {
                         outputStream.write(bytes, 0, len)
                       }
+
                   }
 
               }
-
             }else{
               log.info(s"download stockindex failed from $url!")
             }
