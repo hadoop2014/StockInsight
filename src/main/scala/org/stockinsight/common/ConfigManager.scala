@@ -8,7 +8,7 @@ import org.apache.hadoop.fs.Path
 /**
  * Created by asus on 2015/8/2.
  */
-object ConfigManager extends LogSupport{
+object ConfigManager extends LogSupport with LoadConfig{
 
   val currentPath = System.getProperty("user.dir")
 
@@ -26,9 +26,9 @@ object ConfigManager extends LogSupport{
 
   val targetJar = s"$artifactsPath\\${projectName}.jar"
 
-  val sparkHost = LoadConfig.getString("spark.host")
+  val sparkHost = getString("spark.host")  //从default.conf文件中获取配置
   val masterUrl = if(sparkHost.toLowerCase() == "localhost") "local[*]" else s"spark://$sparkHost:7077"
-  val driverHost = LoadConfig.getString("driver.host")
+  val driverHost = getString("driver.host")
 
   val siteConfFiles = List(s"${configHome}core-site.xml", s"${configHome}hdfs-site.xml", s"${configHome}hive-site.xml")
 

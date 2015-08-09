@@ -19,7 +19,7 @@ trait HdfsFunction extends LogSupport with Using {
   private var usingCnt = 0
 
   //Hdfs句柄的借贷模式
-  def usingHdfs(errMsg: String)(f: FileSystem => Unit): Unit = {
+  def usingHdfs[T](errMsg: String)(f: FileSystem => T): T = {
     var hdfs: FileSystem = null
     this.synchronized(usingCnt += 1)
     if (usingCnt >= Constant.constMaxHdfsUseCnt.id) {

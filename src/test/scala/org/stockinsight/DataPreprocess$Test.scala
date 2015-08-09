@@ -2,6 +2,7 @@ package org.stockinsight
 
 import org.scalatest.{FlatSpec, Matchers}
 import org.stockinsight.Hdfs.HdfsManager
+import org.stockinsight.Spark.SparkManager
 import org.stockinsight.common.{StockIndexID, ConfigManager, LogSupport}
 import java.io._
 /**
@@ -24,6 +25,9 @@ class DataPreprocess$Test extends FlatSpec with LogSupport with Matchers{
     files.filter(_.contains("Index")).size should be (StockIndexID.values.size)
   }
 
-
+  it should "create table by spark sql with hivecontext" in{
+    dataPreprocess.createTable
+    SparkManager.showTables().filter(_.contains("index")).size should be (6)
+  }
 
 }

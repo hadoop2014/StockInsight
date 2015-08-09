@@ -4,6 +4,7 @@ package org.stockinsight
  * Created by asus on 2015/8/5.
  */
 object DataProcessJob extends App{
+
   val dataPreprocess = new DataPreprocess
 
   //获取指数数据
@@ -11,5 +12,8 @@ object DataProcessJob extends App{
 
   //指数数据推送到HDFS
   dataPreprocess.copyStockIndexDataToHdfs()
+
+  //在hdfs上创建外部表
+  dataPreprocess.createTable
 
 }

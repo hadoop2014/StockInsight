@@ -13,7 +13,7 @@ import org.stockinsight.common.{Constant, LogSupport, Using}
 trait HttpFunction extends LogSupport with Using{
 
   //实现HttpClient的租借模式
-  def usingHttpClient(errMsg: String)(f: CloseableHttpClient => Unit) = {
+  def usingHttpClient[T](errMsg: String)(f: CloseableHttpClient => T): T = {
     val httpClient = HttpClients.createDefault()
 
     try {

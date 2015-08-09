@@ -2,14 +2,16 @@ package org.stockinsight
 
 import org.stockinsight.Hdfs.HdfsManager
 import org.stockinsight.Http.HttpManager
+import org.stockinsight.Spark.SparkFunction
 import org.stockinsight.common._
 
 /**
  * Created by asus on 2015/6/28.
  */
 //数据预处理，包括从internet上获取指数数据，同时存入hdfs
-class DataPreprocess extends LogSupport{
+class DataPreprocess extends LogSupport with SparkFunction{
 
+  //从internet上下载指数数据
   def downloadFileFromUrl(): Unit = {
     try{
       StockIndexID.values.map(
@@ -46,6 +48,36 @@ class DataPreprocess extends LogSupport{
         e.printStackTrace()
       }
     }
+  }
 
+  //创建spark sql数据库表
+  def createTable(): Unit = {
+    usingHiveContext("CreateTable"){
+      hiveContext => {
+        val dataHdfsPath = HdfsManager.getDefaultFS() + ConfigManager.dataHdfsPath
+
+        StockIndexID.values.foreach{
+          stockIndexId => {
+            val tableName = StockIndexID.getStockIndexPathName(stockIndexId)
+            val location = dataHdfsPath + tableName
+            hiveContext.sql(s"""
+          CREATE EXTERNAL TABLE IF NOT EXISTS $tableName (
+            ReportDate STRING,
+            OpenPrice DOUBLE,
+            HighPrice DOUBLE,
+            LowPrice DOUBLE,
+            ClosePrice DOUBLE,
+            Volume DOUBLE,
+            AdjClosePrice DOUBLE
+          )
+          ROW FORMAT DELIMITED FIELDS TERMINATED BY ','
+          LOCATION '$location'
+          """
+            )
+            log.info(s"Success to create table $tableName")
+          }
+        }
+      }
+    }
   }
 }
