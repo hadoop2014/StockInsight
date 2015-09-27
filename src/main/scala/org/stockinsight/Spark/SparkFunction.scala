@@ -15,8 +15,11 @@ trait SparkFunction extends LogSupport{
 
     val sparkConf = new SparkConf().setAppName(appName)
     sparkConf.setMaster(ConfigManager.masterUrl).set("spark.driver.host",s"${ConfigManager.driverHost}")
-    //sparkConf.setMaster("Spark://Master:7077").set("spark.driver.host",s"${ConfigManager.driverHost}")
-    sparkConf.set("spark.eventLog.enabled","true").set("spark.eventLog.dir",s"${ConfigManager.logHdfsPath}")
+    ConfigManager.sparkParameters.foreach(x => {
+      val parameter = x.split(",")
+      sparkConf.set(parameter.head, parameter.last)
+    })
+    sparkConf.set("spark.eventLog.dir",s"${ConfigManager.logHdfsPath}")
     sparkConf.setJars(List(s"${ConfigManager.targetJar}"))
 
     val sparkContext = new SparkContext(sparkConf)
@@ -47,8 +50,8 @@ trait SparkFunction extends LogSupport{
   def usingHiveContext[T](appName: String)(f: HiveContext => T): T = {
     usingSparkContext(appName){
       sparkContext => {
+        val hiveContext = new HiveContext(sparkContext)
         try{
-          val hiveContext = new HiveContext(sparkContext)
           f(hiveContext)
         }
         catch {

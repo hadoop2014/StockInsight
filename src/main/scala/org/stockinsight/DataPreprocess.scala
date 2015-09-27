@@ -29,6 +29,28 @@ class DataPreprocess extends LogSupport with SparkFunction{
     }
   }
 
+  //删除文件的第一行数据，因为第一行是标题头，在spark sql中不认
+  def deleteHeadLine():Unit = {
+    try{
+      StockIndexID.values.map(
+        stockIndexID => {
+          if(HdfsManager.deleteFirstLine(ConfigManager.dataPath + StockIndexID.getStockIndexFileName(stockIndexID)) == true){
+            log.info(s"Success to delete head line of ${StockIndexID.getStockIndexFileName(stockIndexID)}")
+          }else {
+            log.info(s"No need to delete head line of ${StockIndexID.getStockIndexFileName(stockIndexID)}")
+          }
+        }
+      )
+    }
+    catch{
+      case e: Throwable => {
+        log.error("deleteHeadLine error!",e)
+        e.printStackTrace()
+      }
+    }
+  }
+
+
   //拷贝指数数据到HDFS
   def copyStockIndexDataToHdfs(): Unit = {
     try{
@@ -80,4 +102,25 @@ class DataPreprocess extends LogSupport with SparkFunction{
       }
     }
   }
+
+  //删除文件第一行
+  /*def deleteHeadLine():Unit = {
+    usingHiveContext("delete headline"){
+      val dataHdfsPath = HdfsManager.getDefaultFS() + ConfigManager.dataHdfsPath
+      hiveContext => {
+        val dataHdfsPath = HdfsManager.getDefaultFS() + ConfigManager.dataHdfsPath
+        StockIndexID.values.foreach {
+          stockIndexId => {
+            val tableName = StockIndexID.getStockIndexPathName(stockIndexId)
+            val location = dataHdfsPath + tableName
+
+            hiveContext.sql(s"select * from $tableName where ReportDate != 'Date'")
+              .save(s"$location/${StockIndexID.getStockIndexFileName(stockIndexId)}", SaveMode.Overwrite)
+
+            log.info(s"Success to delete headline of $location/${StockIndexID.getStockIndexFileName(stockIndexId)}")
+          }
+        }
+      }
+    }
+  }*/
 }

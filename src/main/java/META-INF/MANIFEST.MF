@@ -9,5 +9,5 @@ Class-Path: httpcore-4.3.1.jar spray-can-1.3.1.jar akka-actor_2.10-2.3
  4.1.jar slf4j-api-1.7.6.jar spray-routing-1.3.1.jar commons-csv-1.1.j
  ar parboiled-scala_2.10-1.1.6.jar hadoop-auth-2.2.0.jar commons-lang3
  -3.3.2.jar shapeless_2.10-1.2.4.jar spark-csv_2.10-1.0.3.jar
-Main-Class: org.stockinsight.DataProcessJob
+Main-Class: org.stockinsight.DataPrerocessJob
 

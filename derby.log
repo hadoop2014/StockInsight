@@ -1,8 +1,8 @@
 ----------------------------------------------------------------
-Sun Aug 09 15:49:12 CST 2015:
-Booting Derby version The Apache Software Foundation - Apache Derby - 10.10.1.1 - (1458268): instance a816c00e-014f-116f-4fe8-00000d2cb9d8 
-on database directory C:\Users\asus\AppData\Local\Temp\spark-276e0389-3aff-4024-8265-1327dedff089\metastore with class loader sun.misc.Launcher$AppClassLoader@12720f6c 
-Loaded from file:/C:/Users/asus/.ivy2/cache/org.apache.derby/derby/jars/derby-10.10.1.1.jar
+Sun Sep 27 12:26:40 CST 2015:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.10.2.0 - (1582446): instance a816c00e-0150-0d0d-7924-00000f9f02f0 
+on database directory C:\Users\asus\AppData\Local\Temp\spark-ac564860-6a36-4de2-9f6e-3ccd31c9bd6c\metastore with class loader sun.misc.Launcher$AppClassLoader@757dbeaf 
+Loaded from file:/C:/Users/asus/.ivy2/cache/org.apache.derby/derby/jars/derby-10.10.2.0.jar
 java.vendor=Oracle Corporation
 java.runtime.version=1.7.0_71-b14
 user.dir=D:\BigdataResearch\StockInsight

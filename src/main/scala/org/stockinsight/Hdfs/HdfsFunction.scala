@@ -1,12 +1,14 @@
 package org.stockinsight.Hdfs
 
-import java.io.{ByteArrayInputStream, FileOutputStream, BufferedInputStream, IOException, File}
+import java.io._
 
+import scala.io._
 import org.apache.hadoop.conf.Configuration
 import org.apache.hadoop.fs.{Path, FileSystem}
 import org.apache.hadoop.io.IOUtils
 import org.apache.hadoop.io.compress.CompressionCodecFactory
 import org.stockinsight.common._
+
 
 /**
  * Created by asus on 2015/8/1.
@@ -15,9 +17,45 @@ trait HdfsFunction extends LogSupport with Using {
 
   def hdfsConf : Configuration
 
+
+  //PrintWriter的借贷模式
+  def usingPrintWriter[T](filename:String)(f:PrintWriter => T):T = {
+    val printWriter = new PrintWriter(filename)
+    try {
+      //printWriter.write(Source.fromFile(filename).mkString)
+      f(printWriter)
+    }
+    catch {
+      case e:IOException =>  {
+        log.error(s"write $filename failure!")
+        e.printStackTrace()
+        throw e
+      }
+    }
+    finally {
+      printWriter.close()
+    }
+  }
+
+  //删除文件第一行
+  def deleteFirstLine(filename:String):Boolean =
+  {
+    var result = false
+    val lines = Source.fromFile(filename).getLines.toList
+    if (lines.head.split(",")(0) == "Date") {  //第一行是标题行，则删除
+      val deleteFirst = lines.drop(1).mkString("\n")
+      usingPrintWriter(filename){
+        printWriter => {
+          printWriter.write(deleteFirst)
+          result = true
+        }
+      }
+    }
+    result
+  }
+
   private var errorCnt = 0
   private var usingCnt = 0
-
   //Hdfs句柄的借贷模式
   def usingHdfs[T](errMsg: String)(f: FileSystem => T): T = {
     var hdfs: FileSystem = null

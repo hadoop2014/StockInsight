@@ -1,10 +1,12 @@
 package org.stockinsight.Spark
+
 //import java.util.{List => JList}
 
 /**
  * Created by asus on 2015/8/8.
  */
 object SparkManager extends SparkFunction{
+
 
   def showTables(): Array[String]= {
     usingHiveContext("show tables"){
@@ -14,4 +16,12 @@ object SparkManager extends SparkFunction{
     }
   }
 
+  def query(sqlStatement: Seq[String]) ={
+    usingHiveContext("sql query"){
+      hiveContext => {
+        sqlStatement.init.map(hiveContext.sql(_))
+        hiveContext.sql(sqlStatement.last).collect()
+      }
+    }
+  }
 }

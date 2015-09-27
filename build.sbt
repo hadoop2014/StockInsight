@@ -6,7 +6,8 @@ scalaVersion := "2.10.4"
 
 
 libraryDependencies ++= Seq(
-  "org.apache.hive"% "hive-jdbc" % "0.13.1",
+  //"org.apache.hive"% "hive-jdbc" % "0.13.1",
+  "org.apache.hive"% "hive-jdbc" % "1.2.1",
   "io.spray" % "spray-can" % "1.3.1",
   "io.spray" % "spray-routing" % "1.3.1",
   "io.spray" % "spray-testkit" % "1.3.1" % "test",
@@ -15,10 +16,10 @@ libraryDependencies ++= Seq(
   "com.typesafe.akka" %% "akka-testkit" % "2.3.4" % "test",
   "org.quartz-scheduler" % "quartz" % "2.2.1",
   "org.scalatest" %% "scalatest" % "2.2.0",
-  "org.apache.spark" %% "spark-core" % "1.4.0",
-  "org.apache.spark" %% "spark-sql" % "1.4.0",
-  "org.apache.spark" %% "spark-hive" % "1.4.0",
-  "org.apache.spark" %% "spark-mllib" % "1.4.0",
+  "org.apache.spark" %% "spark-core" % "1.5.0",
+  "org.apache.spark" %% "spark-sql" % "1.5.0",
+  "org.apache.spark" %% "spark-hive" % "1.5.0",
+  "org.apache.spark" %% "spark-mllib" % "1.5.0",
   "org.apache.hadoop" % "hadoop-common" % "2.2.0",
   "org.apache.hadoop" % "hadoop-client" % "2.2.0",
   "javax.servlet" % "javax.servlet-api" % "3.0.1",

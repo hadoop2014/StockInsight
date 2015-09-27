@@ -15,6 +15,8 @@ object ConfigManager extends LogSupport with LoadConfig{
   val fileSeperate = System.getProperty("file.separator")   //文件路径分割符
 
   val configHome = ".\\src\\main\\resources\\"
+  //读取所有配置文件
+  setConfigFiles(configHome,"default.conf")
 
   val dataPath = currentPath + "\\data\\"    //存放数据的本地地址
 
@@ -29,6 +31,7 @@ object ConfigManager extends LogSupport with LoadConfig{
   val sparkHost = getString("spark.host")  //从default.conf文件中获取配置
   val masterUrl = if(sparkHost.toLowerCase() == "localhost") "local[*]" else s"spark://$sparkHost:7077"
   val driverHost = getString("driver.host")
+  val sparkParameters = getStringList("sparkContext.parameters")
 
   val siteConfFiles = List(s"${configHome}core-site.xml", s"${configHome}hdfs-site.xml", s"${configHome}hive-site.xml")
 

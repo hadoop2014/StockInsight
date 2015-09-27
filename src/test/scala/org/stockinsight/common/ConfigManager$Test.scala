@@ -10,6 +10,7 @@ class ConfigManager$Test extends FlatSpec with LogSupport with Matchers {
 
   it should "the data of local dir and data of hdfs dir should be right" in {
 
+    log.info(ConfigManager.currentPath)
     log.info(ConfigManager.dataPath)
     log.info(ConfigManager.dataHdfsPath)
     log.info(ConfigManager.projectName)
@@ -18,6 +19,12 @@ class ConfigManager$Test extends FlatSpec with LogSupport with Matchers {
     log.info(ConfigManager.targetJar)
     log.info(ConfigManager.masterUrl)
     log.info(ConfigManager.driverHost)
+    log.info(ConfigManager.sparkParameters.toString)
+    ConfigManager.sparkParameters.foreach(x => {
+      val parameter = x.split(",")
+      log.info(s"${parameter.head}")
+      log.info(s"${parameter.last}")
+    })
     ConfigManager.siteConfFiles.foreach(log.debug)
     ConfigManager.dataPath should be ("D:\\BigdataResearch\\StockInsight\\data\\")
     HdfsManager.getDefaultFS() + ConfigManager.dataHdfsPath should be ("hdfs://Master:9000/stockindex/")
